@@ -1,12 +1,14 @@
+// server.js
 const express = require('express');
 const fetch = require('node-fetch');
+require('dotenv').config(); // Asegúrate de tener un .env con tus secretos
 const app = express();
 const PORT = 3000;
 
-// Credenciales de Twitch (mantener el Secret privado)
-const CLIENT_ID = 'oxc08qdnh3xt973libna6uhq0iupco';
-const CLIENT_SECRET = 'y7v3kbbxa69xlywhznu1e1z8j596jh';
-const CHANNEL_NAME = 'donpelon_1';
+// Configuración segura
+const CLIENT_ID = process.env.CLIENT_ID || 'gfjsuwcne6tpoe17onodza6ktp26t3';
+const CLIENT_SECRET = process.env.CLIENT_SECRET || '43leq5utof1acw7w5t9zpsxlt8bw7t';
+const CHANNEL_NAME = process.env.CHANNEL_NAME || 'donpelon_1';
 
 let accessToken = '';
 
@@ -21,7 +23,7 @@ async function getToken() {
   console.log('Token obtenido:', accessToken);
 }
 
-// Endpoint para traer clips recientes
+// Endpoint para obtener clips recientes
 app.get('/api/streams', async (req, res) => {
   try {
     if (!accessToken) await getToken();
@@ -32,12 +34,12 @@ app.get('/api/streams', async (req, res) => {
       {
         headers: {
           'Client-ID': CLIENT_ID,
-          'Authorization': `Bearer ${accessToken}`,
-        },
+          'Authorization': `Bearer ${accessToken}`
+        }
       }
     );
-    const userData = await userRes.json();
 
+    const userData = await userRes.json();
     if (!userData.data || !userData.data[0]) {
       return res.status(404).json({ error: 'Canal no encontrado' });
     }
@@ -50,13 +52,14 @@ app.get('/api/streams', async (req, res) => {
       {
         headers: {
           'Client-ID': CLIENT_ID,
-          'Authorization': `Bearer ${accessToken}`,
-        },
+          'Authorization': `Bearer ${accessToken}`
+        }
       }
     );
-    const clipsData = await clipsRes.json();
 
+    const clipsData = await clipsRes.json();
     res.json(clipsData);
+
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Error al obtener los clips' });
