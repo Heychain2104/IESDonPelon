@@ -20,8 +20,8 @@
     nav ul li ul li { padding: 8px 15px; }
     nav ul li ul li:hover { background-color: #ffe033; }
 
-    .btn { background-color: #ffe033; color: #333; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 10px; display: inline-flex; align-items: center; gap: 5px; }
-    .btn:hover { background-color: #ffd700; }
+    .btn { background-color: #fff; color: #000; border: 2px solid #000; padding: 15px 25px; border-radius: 5px; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; margin-right: 10px; font-size: 1.1em; }
+    .btn:hover { background-color: #f0f0f0; }
 
     section { padding: 50px; }
     .section-title { font-size: 1.8em; margin-bottom: 20px; }
@@ -37,6 +37,8 @@
     .bio img { width: 200px; border-radius: 10px; }
     .bio-text { max-width: 700px; }
     .bio-text h2 { font-size: 1.8em; margin-bottom: 10px; }
+
+    .btn-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 15px; }
 
     footer { background-color: #fff; padding: 30px 50px; text-align: center; margin-top: 50px; box-shadow: 0 -2px 5px rgba(0,0,0,0.1); }
     footer a { margin: 0 10px; text-decoration: none; color: #333; }
@@ -94,7 +96,7 @@
 <!-- Streams y videos de la comunidad -->
 <section id="multimedia">
   <h2 class="section-title">Streams y Videos de la Comunidad</h2>
-  <div class="carousel">
+  <div class="btn-row">
     <button class="btn"><img src="twitch1.png" alt="Twitch" style="height:20px;">Twitch</button>
     <button class="btn"><img src="youtube1.png" alt="YouTube" style="height:20px;">YouTube</button>
     <button class="btn"><img src="trovo1.png" alt="Trovo" style="height:20px;">Trovo</button>
@@ -143,4 +145,3 @@
 
 </body>
 </html>
-
