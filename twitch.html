@@ -1,77 +1,65 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Twitch - Oaguba Comunidad</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
-    body { background-color: #f9f9f9; color: #333; }
+// server.js
+const express = require('express');
+const fetch = require('node-fetch');
+require('dotenv').config(); // Asegúrate de tener un .env con tus secretos
+const app = express();
+const PORT = 3000;
 
-    header, footer { background-color: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    header { display: flex; justify-content: space-between; align-items: center; padding: 15px 50px; }
-    header img { height: 70px; }
-    nav ul { list-style: none; display: flex; gap: 20px; }
-    nav ul li { cursor: pointer; padding: 10px; }
-    nav ul li a { text-decoration: none; color: #333; }
-    nav ul li:hover { background-color: #ffe033; border-radius: 5px; }
+// Configuración segura
+const CLIENT_ID = process.env.CLIENT_ID || 'gfjsuwcne6tpoe17onodza6ktp26t3';
+const CLIENT_SECRET = process.env.CLIENT_SECRET || '43leq5utof1acw7w5t9zpsxlt8bw7t';
+const CHANNEL_NAME = process.env.CHANNEL_NAME || 'donpelon_1';
 
-    footer { padding: 30px 50px; text-align: center; margin-top: 50px; }
-    footer a { margin: 0 10px; text-decoration: none; color: #333; }
+let accessToken = '';
 
-    .section-title { font-size: 1.8em; margin: 40px 0 20px; text-align: center; }
+// Obtener token de Twitch
+async function getToken() {
+  const res = await fetch(
+    `https://id.twitch.tv/oauth2/token?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&grant_type=client_credentials`,
+    { method: 'POST' }
+  );
+  const data = await res.json();
+  accessToken = data.access_token;
+  console.log('Token obtenido:', accessToken);
+}
 
-    .video-grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
-    .video-card { flex: 1 1 300px; max-width: 350px; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: transform 0.3s; }
-    .video-card:hover { transform: scale(1.05); }
-    .video-card iframe { width: 100%; height: 200px; border: none; }
-    .video-card p { padding: 10px; text-align: center; font-weight: bold; }
-  </style>
-</head>
-<body>
+// Endpoint para obtener clips recientes
+app.get('/api/streams', async (req, res) => {
+  try {
+    if (!accessToken) await getToken();
 
-<header>
-  <nav>
-    <ul>
-      <li><a href="index.html">Inicio</a></li>
-      <li><a href="foro.html">Foro</a></li>
-      <li><a href="noticias.html">Noticias</a></li>
-      <li><a href="galeria.html">Galería</a></li>
-      <li><a href="youtube.html">YouTube</a></li>
-      <li><a href="twitch.html">Twitch</a></li>
-    </ul>
-  </nav>
-  <img src="logo.png" alt="Oaguba Comunidad">
-</header>
+    // Obtener ID del broadcaster
+    const userRes = await fetch(
+      `https://api.twitch.tv/helix/users?login=${CHANNEL_NAME}`,
+      {
+        headers: {
+          'Client-ID': CLIENT_ID,
+          'Authorization': `Bearer ${accessToken}`
+        }
+      }
+    );
+    const userData = await userRes.json();
+    if (!userData.data || !userData.data[0]) {
+      return res.status(404).json({ error: 'Canal no encontrado' });
+    }
+    const broadcasterId = userData.data[0].id;
 
-<h2 class="section-title">Twitch - Stream en Vivo</h2>
+    // Obtener clips recientes
+    const clipsRes = await fetch(
+      `https://api.twitch.tv/helix/clips?broadcaster_id=${broadcasterId}&first=10`,
+      {
+        headers: {
+          'Client-ID': CLIENT_ID,
+          'Authorization': `Bearer ${accessToken}`
+        }
+      }
+    );
+    const clipsData = await clipsRes.json();
+    res.json(clipsData);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Error al obtener los clips' });
+  }
+});
 
-<div class="video-grid">
-  <!-- Stream principal -->
-  <div class="video-card">
-    <iframe
-      src="https://player.twitch.tv/?channel=donpelon_1&parent=localhost"
-      allowfullscreen>
-    </iframe>
-    <p>donpelon_1 - Stream en Vivo</p>
-  </div>
-
-  <!-- Puedes duplicar este bloque para otros canales si quieres -->
-  <!--
-  <div class="video-card">
-    <iframe src="https://player.twitch.tv/?channel=OTRO_CANAL&parent=localhost" allowfullscreen></iframe>
-    <p>Otro Canal</p>
-  </div>
-  -->
-</div>
-
-<footer>
-  <p>Síguenos en nuestras redes:</p>
-  <a href="#">Facebook</a>
-  <a href="#">Instagram</a>
-  <a href="#">Correo</a>
-</footer>
-
-</body>
-</html>
-
+app.listen(PORT, () => console.log(`Servidor corriendo en http://localhost:${PORT}`));
