@@ -1,65 +1,87 @@
-// server.js
-const express = require('express');
-const fetch = require('node-fetch');
-require('dotenv').config(); // Asegúrate de tener un .env con tus secretos
-const app = express();
-const PORT = 3000;
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Twitch - Oaguba Comunidad</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+    body { background-color: #f9f9f9; color: #333; }
+    
+    header, footer { background-color: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); padding: 15px 50px; }
+    header img { height: 70px; }
+    nav ul { list-style: none; display: flex; gap: 20px; }
+    nav ul li a { text-decoration: none; color: #333; padding: 10px; display: block; }
+    nav ul li:hover { background-color: #ffe033; border-radius: 5px; }
 
-// Configuración segura
-const CLIENT_ID = process.env.CLIENT_ID || 'gfjsuwcne6tpoe17onodza6ktp26t3';
-const CLIENT_SECRET = process.env.CLIENT_SECRET || '43leq5utof1acw7w5t9zpsxlt8bw7t';
-const CHANNEL_NAME = process.env.CHANNEL_NAME || 'donpelon_1';
+    .section-title { font-size: 1.8em; margin: 40px 0 20px; text-align: center; }
 
-let accessToken = '';
+    .video-grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+    .video-card { flex: 1 1 300px; max-width: 350px; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: transform 0.3s; }
+    .video-card:hover { transform: scale(1.05); }
+    .video-card iframe { width: 100%; height: 200px; border: none; }
+    .video-card p { padding: 10px; text-align: center; font-weight: bold; }
+  </style>
+</head>
+<body>
 
-// Obtener token de Twitch
-async function getToken() {
-  const res = await fetch(
-    `https://id.twitch.tv/oauth2/token?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&grant_type=client_credentials`,
-    { method: 'POST' }
-  );
-  const data = await res.json();
-  accessToken = data.access_token;
-  console.log('Token obtenido:', accessToken);
+<header>
+  <nav>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="foro.html">Foro</a></li>
+      <li><a href="noticias.html">Noticias</a></li>
+      <li><a href="galeria.html">Galería</a></li>
+      <li><a href="youtube.html">YouTube</a></li>
+      <li><a href="twitch.html">Twitch</a></li>
+    </ul>
+  </nav>
+  <img src="logo.png" alt="Oaguba Comunidad">
+</header>
+
+<h2 class="section-title">Twitch - Clips y Streams</h2>
+
+<div class="video-grid" id="video-grid">
+  <!-- Clips se cargarán dinámicamente aquí -->
+</div>
+
+<footer>
+  <p>Síguenos en nuestras redes:</p>
+  <a href="#">Facebook</a>
+  <a href="#">Instagram</a>
+  <a href="#">Correo</a>
+</footer>
+
+<script>
+async function cargarClips() {
+  const grid = document.getElementById('video-grid');
+  try {
+    const res = await fetch('/api/streams');
+    const data = await res.json();
+
+    if (!data.data || data.data.length === 0) {
+      grid.innerHTML = '<p>No se encontraron clips.</p>';
+      return;
+    }
+
+    data.data.forEach(clip => {
+      const card = document.createElement('div');
+      card.className = 'video-card';
+      card.innerHTML = `
+        <iframe src="${clip.embed_url}" allowfullscreen></iframe>
+        <p>${clip.title}</p>
+      `;
+      grid.appendChild(card);
+    });
+  } catch (err) {
+    console.error('Error al cargar clips:', err);
+    grid.innerHTML = '<p>No se pudieron cargar los clips.</p>';
+  }
 }
 
-// Endpoint para obtener clips recientes
-app.get('/api/streams', async (req, res) => {
-  try {
-    if (!accessToken) await getToken();
+// Cargar clips al abrir la página
+cargarClips();
+</script>
 
-    // Obtener ID del broadcaster
-    const userRes = await fetch(
-      `https://api.twitch.tv/helix/users?login=${CHANNEL_NAME}`,
-      {
-        headers: {
-          'Client-ID': CLIENT_ID,
-          'Authorization': `Bearer ${accessToken}`
-        }
-      }
-    );
-    const userData = await userRes.json();
-    if (!userData.data || !userData.data[0]) {
-      return res.status(404).json({ error: 'Canal no encontrado' });
-    }
-    const broadcasterId = userData.data[0].id;
-
-    // Obtener clips recientes
-    const clipsRes = await fetch(
-      `https://api.twitch.tv/helix/clips?broadcaster_id=${broadcasterId}&first=10`,
-      {
-        headers: {
-          'Client-ID': CLIENT_ID,
-          'Authorization': `Bearer ${accessToken}`
-        }
-      }
-    );
-    const clipsData = await clipsRes.json();
-    res.json(clipsData);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Error al obtener los clips' });
-  }
-});
-
-app.listen(PORT, () => console.log(`Servidor corriendo en http://localhost:${PORT}`));
+</body>
+</html>
