@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube - Don Pelon</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+    body { background-color: #f9f9f9; color: #333; }
+
+    header, footer { background-color: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    header { display: flex; justify-content: space-between; align-items: center; padding: 15px 50px; }
+    header img { height: 70px; }
+    nav ul { list-style: none; display: flex; gap: 20px; }
+    nav ul li { cursor: pointer; padding: 10px; }
+    nav ul li:hover { background-color: #ffe033; border-radius: 5px; }
+    nav ul li a { text-decoration: none; color: #333; }
+
+    footer { padding: 30px 50px; text-align: center; margin-top: 50px; }
+    footer a { margin: 0 10px; text-decoration: none; color: #333; }
+
+    .section-title { font-size: 1.8em; margin: 40px 0 20px; text-align: center; }
+
+    .video-grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+    .video-card { flex: 1 1 300px; max-width: 350px; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: transform 0.3s; }
+    .video-card:hover { transform: scale(1.05); }
+    .video-card iframe { width: 100%; height: 200px; border: none; }
+    .video-card p { padding: 10px; text-align: center; font-weight: bold; }
+
+  </style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="foro.html">Foro</a></li>
+      <li><a href="noticias.html">Noticias</a></li>
+      <li><a href="galeria.html">Galería</a></li>
+      <li><a href="youtube.html">YouTube</a></li>
+      <li><a href="twitch.html">Twitch</a></li>
+    </ul>
+  </nav>
+  <img src="logo.png" alt="Oaguba Comunidad">
+</header>
+
+<h2 class="section-title">YouTube - Videos de la Comunidad</h2>
+
+<div class="video-grid">
+  <!-- Ejemplos de videos embed -->
+  <div class="video-card">
+    <iframe src="https://www.youtube.com/embed/VIDEO_ID_1" allowfullscreen></iframe>
+    <p>Título del Video 1</p>
+  </div>
+  <div class="video-card">
+    <iframe src="https://www.youtube.com/embed/VIDEO_ID_2" allowfullscreen></iframe>
+    <p>Título del Video 2</p>
+  </div>
+  <div class="video-card">
+    <iframe src="https://www.youtube.com/embed/VIDEO_ID_3" allowfullscreen></iframe>
+    <p>Título del Video 3</p>
+  </div>
+  <!-- Agrega más videos cambiando VIDEO_ID_X y el título -->
+</div>
+
+<footer>
+  <p>Síguenos en nuestras redes:</p>
+  <a href="#">Facebook</a>
+  <a href="#">Instagram</a>
+  <a href="#">Correo</a>
+</footer>
+
+</body>
+</html>
