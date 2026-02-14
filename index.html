@@ -10,7 +10,7 @@
     body { background-color: #f9f9f9; color: #333; }
 
     header { display: flex; justify-content: space-between; align-items: center; padding: 15px 50px; background-color: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    header img { height: 70px; } /* Logo más grande */
+    header img { height: 70px; }
 
     nav ul { list-style: none; display: flex; gap: 20px; }
     nav ul li { position: relative; cursor: pointer; padding: 10px 5px; }
@@ -20,18 +20,21 @@
     nav ul li ul li { padding: 8px 15px; }
     nav ul li ul li:hover { background-color: #ffe033; }
 
-    .btn { background-color: #fff; color: #000; border: 2px solid #000; padding: 25px 0; border-radius: 5px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-size: 1.2em; flex: 1; }
-    .btn:hover { background-color: #f0f0f0; }
+    .btn { background-color: #fff; color: #000; border: 2px solid #000; padding: 30px 0; border-radius: 5px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-size: 1.3em; flex: 1; transition: all 0.3s ease; }
+
+    .btn img { height: 30px; }
+
+    /* Hover colors */
+    .btn.youtube:hover { background-color: #FF0000; color: #fff; }
+    .btn.twitch:hover { background-color: #9146FF; color: #fff; }
+    .btn.kick:hover { background-color: #00FF00; color: #000; } /* lima */
+    .btn.trovo:hover { background-color: #228B22; color: #fff; } /* verde bosque */
 
     section { padding: 50px; }
     .section-title { font-size: 1.8em; margin-bottom: 20px; }
 
     .grid { display: flex; gap: 20px; flex-wrap: wrap; }
     .card { background-color: #fff; padding: 20px; border-radius: 10px; flex: 1; min-width: 250px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-
-    .carousel { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px; }
-    .carousel-item { min-width: 250px; flex-shrink: 0; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    .carousel-item img { width: 100%; display: block; }
 
     .bio { display: flex; gap: 20px; align-items: center; margin-bottom: 50px; }
     .bio img { width: 200px; border-radius: 10px; }
@@ -84,7 +87,6 @@
   <img src="logo.png" alt="Oaguba Comunidad">
 </header>
 
-<!-- Biografía arriba -->
 <section id="bio" class="bio">
   <img src="bio.jpg" alt="Miembro de la Comunidad">
   <div class="bio-text">
@@ -93,16 +95,14 @@
   </div>
 </section>
 
-<!-- Streams y videos de la comunidad -->
 <section id="multimedia">
   <h2 class="section-title">Streams y Videos de la Comunidad</h2>
   <div class="btn-row">
-    <button class="btn"><img src="twitch1.png" alt="Twitch" style="height:25px;">Twitch</button>
-    <button class="btn"><img src="youtube1.png" alt="YouTube" style="height:25px;">YouTube</button>
-    <button class="btn"><img src="trovo1.png" alt="Trovo" style="height:25px;">Trovo</button>
-    <button class="btn"><img src="kick1.png" alt="Kick" style="height:25px;">Kick</button>
+    <button class="btn youtube"><img src="youtube1.png" alt="YouTube">YouTube</button>
+    <button class="btn twitch"><img src="twitch1.png" alt="Twitch">Twitch</button>
+    <button class="btn trovo"><img src="trovo1.png" alt="Trovo">Trovo</button>
+    <button class="btn kick"><img src="kick1.png" alt="Kick">Kick</button>
   </div>
-  <button class="btn">Ver Más Videos</button>
 </section>
 
 <section id="galeria">
@@ -145,4 +145,3 @@
 
 </body>
 </html>
-
