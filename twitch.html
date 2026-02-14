@@ -5,16 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Twitch - Oaguba Comunidad</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+    * { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
     body { background-color: #f9f9f9; color: #333; }
-    
+
     header, footer { background-color: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); padding: 15px 50px; }
     header img { height: 70px; }
     nav ul { list-style: none; display: flex; gap: 20px; }
     nav ul li a { text-decoration: none; color: #333; padding: 10px; display: block; }
     nav ul li:hover { background-color: #ffe033; border-radius: 5px; }
 
-    .section-title { font-size: 1.8em; margin: 40px 0 20px; text-align: center; }
+    h2.section-title { font-size: 1.8em; margin: 40px 0 20px; text-align: center; }
 
     .video-grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
     .video-card { flex: 1 1 300px; max-width: 350px; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: transform 0.3s; }
@@ -39,10 +39,40 @@
   <img src="logo.png" alt="Oaguba Comunidad">
 </header>
 
-<h2 class="section-title">Twitch - Clips y Streams</h2>
+<h2 class="section-title">Twitch - Clips y Stream de la Comunidad</h2>
 
-<div class="video-grid" id="video-grid">
-  <!-- Clips se cargarán dinámicamente aquí -->
+<div class="video-grid">
+  <!-- Stream en vivo -->
+  <div class="video-card">
+    <iframe
+      src="https://player.twitch.tv/?channel=donpelon_1&parent=localhost"
+      allowfullscreen>
+    </iframe>
+    <p>Stream en vivo</p>
+  </div>
+
+  <!-- Clips manuales (puedes cambiar los nombres de los clips) -->
+  <div class="video-card">
+    <iframe
+      src="https://clips.twitch.tv/embed?clip=RemarkableFascinatingGooseMVGame&parent=localhost"
+      allowfullscreen>
+    </iframe>
+    <p>Clip 1</p>
+  </div>
+  <div class="video-card">
+    <iframe
+      src="https://clips.twitch.tv/embed?clip=FunnyCoolCatRlyTho&parent=localhost"
+      allowfullscreen>
+    </iframe>
+    <p>Clip 2</p>
+  </div>
+  <div class="video-card">
+    <iframe
+      src="https://clips.twitch.tv/embed?clip=CuriousHappyPangolinPeteZaroll&parent=localhost"
+      allowfullscreen>
+    </iframe>
+    <p>Clip 3</p>
+  </div>
 </div>
 
 <footer>
@@ -51,37 +81,6 @@
   <a href="#">Instagram</a>
   <a href="#">Correo</a>
 </footer>
-
-<script>
-async function cargarClips() {
-  const grid = document.getElementById('video-grid');
-  try {
-    const res = await fetch('/api/streams');
-    const data = await res.json();
-
-    if (!data.data || data.data.length === 0) {
-      grid.innerHTML = '<p>No se encontraron clips.</p>';
-      return;
-    }
-
-    data.data.forEach(clip => {
-      const card = document.createElement('div');
-      card.className = 'video-card';
-      card.innerHTML = `
-        <iframe src="${clip.embed_url}" allowfullscreen></iframe>
-        <p>${clip.title}</p>
-      `;
-      grid.appendChild(card);
-    });
-  } catch (err) {
-    console.error('Error al cargar clips:', err);
-    grid.innerHTML = '<p>No se pudieron cargar los clips.</p>';
-  }
-}
-
-// Cargar clips al abrir la página
-cargarClips();
-</script>
 
 </body>
 </html>
