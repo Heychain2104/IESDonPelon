@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oaguba Comunidad</title>
+  <style>
+    /* Reset básico */
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+
+    body { background-color: #f9f9f9; color: #333; }
+
+    /* Header */
+    header { display: flex; justify-content: space-between; align-items: center; padding: 15px 50px; background-color: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    header img { height: 50px; }
+
+    /* Menú */
+    nav ul { list-style: none; display: flex; gap: 20px; }
+    nav ul li { position: relative; cursor: pointer; padding: 10px 5px; }
+    nav ul li:hover { background-color: #ffe033; border-radius: 5px; }
+    nav ul li ul { display: none; position: absolute; top: 100%; left: 0; background-color: #fff; padding: 10px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.2); border-radius: 5px; min-width: 180px; }
+    nav ul li:hover ul { display: block; }
+    nav ul li ul li { padding: 8px 15px; }
+
+    nav ul li ul li:hover { background-color: #ffe033; }
+
+    /* Botones */
+    .btn { background-color: #ffe033; color: #333; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 10px; }
+    .btn:hover { background-color: #ffd700; }
+
+    /* Secciones */
+    section { padding: 50px; }
+    .section-title { font-size: 1.8em; margin-bottom: 20px; }
+
+    /* Foro, Noticias, Galería */
+    .grid { display: flex; gap: 20px; flex-wrap: wrap; }
+    .card { background-color: #fff; padding: 20px; border-radius: 10px; flex: 1; min-width: 250px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+
+    /* Multimedia */
+    .carousel { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px; }
+    .carousel-item { min-width: 250px; flex-shrink: 0; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .carousel-item img { width: 100%; display: block; }
+
+    /* Biografía */
+    .bio { display: flex; gap: 20px; align-items: center; margin-top: 50px; }
+    .bio img { width: 200px; border-radius: 10px; }
+    .bio-text { max-width: 700px; }
+    .bio-text h2 { font-size: 1.8em; margin-bottom: 10px; }
+
+    /* Footer */
+    footer { background-color: #fff; padding: 30px 50px; text-align: center; margin-top: 50px; box-shadow: 0 -2px 5px rgba(0,0,0,0.1); }
+    footer a { margin: 0 10px; text-decoration: none; color: #333; }
+  </style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <ul>
+      <li>Inicio</li>
+      <li>Foro
+        <ul>
+          <li>Temas Populares</li>
+          <li>Últimos Comentarios</li>
+          <li>Crear Nuevo Tema</li>
+        </ul>
+      </li>
+      <li>Noticias
+        <ul>
+          <li>Locales</li>
+          <li>Avisos</li>
+          <li>Destacadas</li>
+        </ul>
+      </li>
+      <li>Galería
+        <ul>
+          <li>Fotos</li>
+          <li>Videos</li>
+        </ul>
+      </li>
+      <li>Multimedia
+        <ul>
+          <li>Twitch</li>
+          <li>YouTube</li>
+          <li>Trovo</li>
+          <li>Kick</li>
+        </ul>
+      </li>
+      <li>Directorio</li>
+    </ul>
+  </nav>
+  <img src="logo.png" alt="Oaguba Comunidad">
+</header>
+
+<section id="foro">
+  <h2 class="section-title">Foro Comunitario</h2>
+  <div class="grid">
+    <div class="card">Fiesta del Barrio este Sábado - 35 respuestas</div>
+    <div class="card">Recomendaciones de Restaurantes - 20 comentarios</div>
+    <div class="card">Problemas con la luz en mi calle - 42 respuestas</div>
+  </div>
+  <button class="btn">Crear Nuevo Tema</button>
+</section>
+
+<section id="noticias">
+  <h2 class="section-title">Noticias Locales</h2>
+  <div class="grid">
+    <div class="card">Nuevo Parque Inaugurado en la Plaza</div>
+    <div class="card">Aviso: Corte de Agua el Viernes</div>
+    <div class="card">Taller de Reciclaje este Domingo</div>
+  </div>
+  <button class="btn">Ver Más Noticias</button>
+</section>
+
+<section id="galeria">
+  <h2 class="section-title">Galería Comunitaria</h2>
+  <div class="grid">
+    <div class="card"><img src="foto1.jpg" alt="Foto 1"></div>
+    <div class="card"><img src="foto2.jpg" alt="Foto 2"></div>
+    <div class="card"><img src="foto3.jpg" alt="Foto 3"></div>
+    <div class="card"><img src="foto4.jpg" alt="Foto 4"></div>
+  </div>
+  <button class="btn">Ver Galería Completa</button>
+</section>
+
+<section id="multimedia">
+  <h2 class="section-title">Streams y Videos de la Comunidad</h2>
+  <div class="carousel">
+    <div class="carousel-item"><img src="twitch1.jpg" alt="Twitch 1"></div>
+    <div class="carousel-item"><img src="youtube1.jpg" alt="YouTube 1"></div>
+    <div class="carousel-item"><img src="trovo1.jpg" alt="Trovo 1"></div>
+    <div class="carousel-item"><img src="kick1.jpg" alt="Kick 1"></div>
+  </div>
+  <button class="btn">Ver Más Videos</button>
+</section>
+
+<section id="bio" class="bio">
+  <img src="bio.jpg" alt="Miembro de la Comunidad">
+  <div class="bio-text">
+    <h2>Bienvenido a Oaguba Comunidad</h2>
+    <p>Somos un portal dedicado a conectar y fortalecer a nuestra comunidad. Aquí puedes enterarte de las últimas noticias, participar en discusiones, compartir fotos y videos, y seguir todos los streams de nuestros vecinos.</p>
+  </div>
+</section>
+
+<footer>
+  <p>Síguenos en nuestras redes:</p>
+  <a href="#">Facebook</a>
+  <a href="#">Instagram</a>
+  <a href="#">Correo</a>
+</footer>
+
+</body>
+</html>
