@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Twitch - IES Don Pelon</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+    body { background-color: #f9f9f9; color: #333; }
+
+    header, footer { background-color: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    header { display: flex; justify-content: space-between; align-items: center; padding: 15px 50px; }
+    header img { height: 70px; }
+    nav ul { list-style: none; display: flex; gap: 20px; }
+    nav ul li { cursor: pointer; padding: 10px; }
+    nav ul li:hover { background-color: #ffe033; border-radius: 5px; }
+    nav ul li a { text-decoration: none; color: #333; }
+
+    footer { padding: 30px 50px; text-align: center; margin-top: 50px; }
+    footer a { margin: 0 10px; text-decoration: none; color: #333; }
+
+    .section-title { font-size: 1.8em; margin: 40px 0 20px; text-align: center; }
+
+    .video-grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+    .video-card { flex: 1 1 300px; max-width: 350px; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: transform 0.3s; }
+    .video-card:hover { transform: scale(1.05); }
+    .video-card iframe { width: 100%; height: 200px; border: none; }
+    .video-card p { padding: 10px; text-align: center; font-weight: bold; }
+
+  </style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="foro.html">Foro</a></li>
+      <li><a href="noticias.html">Noticias</a></li>
+      <li><a href="galeria.html">Galería</a></li>
+      <li><a href="youtube.html">YouTube</a></li>
+      <li><a href="twitch.html">Twitch</a></li>
+    </ul>
+  </nav>
+  <img src="logo.png" alt="Oaguba Comunidad">
+</header>
+
+<h2 class="section-title">Twitch - Clips de la Comunidad</h2>
+
+<div id="video-grid" class="video-grid">
+  <!-- Los clips se cargarán automáticamente aquí desde el backend -->
+</div>
+
+<footer>
+  <p>Síguenos en nuestras redes:</p>
+  <a href="#">Facebook</a>
+  <a href="#">Instagram</a>
+  <a href="#">Correo</a>
+</footer>
+
+<script>
+async function cargarStreams() {
+  try {
+    const res = await fetch('/api/streams'); // Endpoint de tu backend
+    const data = await res.json();
+    
+    const grid = document.getElementById('video-grid');
+    grid.innerHTML = ''; // Limpiar por si hay contenido previo
+
+    data.data.forEach(clip => {
+      const card = document.createElement('div');
+      card.className = 'video-card';
+      card.innerHTML = `
+        <iframe src="${clip.embed_url}" allowfullscreen></iframe>
+        <p>${clip.title}</p>
+      `;
+      grid.appendChild(card);
+    });
+  } catch(err) {
+    console.error('Error cargando clips:', err);
+    const grid = document.getElementById('video-grid');
+    grid.innerHTML = '<p style="text-align:center; width:100%;">No se pudieron cargar los clips.</p>';
+  }
+}
+
+cargarStreams();
+</script>
+
+</body>
+</html>
