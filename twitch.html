@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Twitch - IES Don Pelon</title>
+  <title>Twitch - Oaguba Comunidad</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
     body { background-color: #f9f9f9; color: #333; }
@@ -13,8 +13,8 @@
     header img { height: 70px; }
     nav ul { list-style: none; display: flex; gap: 20px; }
     nav ul li { cursor: pointer; padding: 10px; }
-    nav ul li:hover { background-color: #ffe033; border-radius: 5px; }
     nav ul li a { text-decoration: none; color: #333; }
+    nav ul li:hover { background-color: #ffe033; border-radius: 5px; }
 
     footer { padding: 30px 50px; text-align: center; margin-top: 50px; }
     footer a { margin: 0 10px; text-decoration: none; color: #333; }
@@ -26,7 +26,6 @@
     .video-card:hover { transform: scale(1.05); }
     .video-card iframe { width: 100%; height: 200px; border: none; }
     .video-card p { padding: 10px; text-align: center; font-weight: bold; }
-
   </style>
 </head>
 <body>
@@ -45,10 +44,25 @@
   <img src="logo.png" alt="Oaguba Comunidad">
 </header>
 
-<h2 class="section-title">Twitch - Clips de la Comunidad</h2>
+<h2 class="section-title">Twitch - Stream en Vivo</h2>
 
-<div id="video-grid" class="video-grid">
-  <!-- Los clips se cargarán automáticamente aquí desde el backend -->
+<div class="video-grid">
+  <!-- Stream principal -->
+  <div class="video-card">
+    <iframe
+      src="https://player.twitch.tv/?channel=donpelon_1&parent=localhost"
+      allowfullscreen>
+    </iframe>
+    <p>donpelon_1 - Stream en Vivo</p>
+  </div>
+
+  <!-- Puedes duplicar este bloque para otros canales si quieres -->
+  <!--
+  <div class="video-card">
+    <iframe src="https://player.twitch.tv/?channel=OTRO_CANAL&parent=localhost" allowfullscreen></iframe>
+    <p>Otro Canal</p>
+  </div>
+  -->
 </div>
 
 <footer>
@@ -58,33 +72,6 @@
   <a href="#">Correo</a>
 </footer>
 
-<script>
-async function cargarStreams() {
-  try {
-    const res = await fetch('/api/streams'); // Endpoint de tu backend
-    const data = await res.json();
-    
-    const grid = document.getElementById('video-grid');
-    grid.innerHTML = ''; // Limpiar por si hay contenido previo
-
-    data.data.forEach(clip => {
-      const card = document.createElement('div');
-      card.className = 'video-card';
-      card.innerHTML = `
-        <iframe src="${clip.embed_url}" allowfullscreen></iframe>
-        <p>${clip.title}</p>
-      `;
-      grid.appendChild(card);
-    });
-  } catch(err) {
-    console.error('Error cargando clips:', err);
-    const grid = document.getElementById('video-grid');
-    grid.innerHTML = '<p style="text-align:center; width:100%;">No se pudieron cargar los clips.</p>';
-  }
-}
-
-cargarStreams();
-</script>
-
 </body>
 </html>
+
