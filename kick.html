@@ -1,27 +1,193 @@
-<div id="kick-stream">
-  <iframe src="https://kick.com/embed/don_pelon?parent=heychain2104.github.io"
-          width="640" height="360" allowfullscreen>
-  </iframe>
-</div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kick - Don Pelon</title>
+<style>
+  /* Colores Kick: morado oscuro #4A00E0 y gris oscuro para fondo */
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: #fff;
+  }
 
-<div id="kick-clips"></div>
+  header, footer {
+    background-color: #4A00E0;
+    padding: 15px 30px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+
+  header img { height: 60px; vertical-align: middle; }
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    padding: 0;
+    margin: 10px 0 0 0;
+  }
+  nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background 0.3s;
+  }
+  nav ul li a:hover {
+    background-color: #3500B3;
+  }
+
+  h1 {
+    text-align: center;
+    margin: 20px 0;
+    color: #FF7A00;
+  }
+
+  main {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* Stream principal grande (16:9) */
+  .stream-container {
+    flex: 2 1 640px;
+    position: relative;
+  }
+  .stream-container::before {
+    content: "";
+    display: block;
+    padding-top: 56.25%; /* 16:9 */
+  }
+  .stream-container iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 10px;
+  }
+
+  /* Clips miniatura verticales */
+  .clips-container {
+    flex: 1 1 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .clip-card {
+    position: relative;
+    padding-top: 56.25%; /* 16:9 */
+    overflow: hidden;
+    border-radius: 10px;
+    background: #1F1F1F;
+    transition: transform 0.3s;
+  }
+  .clip-card:hover { transform: scale(1.03); }
+
+  .clip-card iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  .clip-card p {
+    margin: 5px 0 0 0;
+    padding: 5px;
+    text-align: center;
+    font-size: 0.9em;
+    font-weight: bold;
+    color: #fff;
+  }
+
+  footer {
+    text-align: center;
+    color: #fff;
+  }
+  footer a {
+    color: #fff;
+    margin: 0 8px;
+    text-decoration: none;
+  }
+  footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 900px) {
+    main { flex-direction: column; align-items: center; }
+    .clips-container { flex-direction: row; flex-wrap: wrap; justify-content: center; }
+    .clip-card { width: 150px; padding-top: 84px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <img src="logo.png" alt="IES Don Pelon">
+  <nav>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="foro.html">Foro</a></li>
+      <li><a href="noticias.html">Noticias</a></li>
+      <li><a href="galeria.html">Galería</a></li>
+      <li><a href="youtube.html">YouTube</a></li>
+      <li><a href="kick.html">Kick</a></li>
+    </ul>
+  </nav>
+</header>
+
+<h1>Stream y Clips de Don_Pelon</h1>
+
+<main>
+  <!-- Stream principal -->
+  <div class="stream-container">
+    <iframe src="https://kick.com/embed/Don_Pelon?parent=heychain2104.github.io"
+            allowfullscreen>
+    </iframe>
+  </div>
+
+  <!-- Clips miniaturas -->
+  <div class="clips-container" id="clips">
+    <!-- Se añadirán automáticamente -->
+  </div>
+</main>
+
+<footer>
+  <p>Síguenos en nuestras redes:</p>
+  <a href="#">Facebook</a>
+  <a href="#">Instagram</a>
+  <a href="#">Correo</a>
+</footer>
 
 <script>
 async function cargarClipsKick() {
   try {
-    const res = await fetch("https://kick.com/api/v1/channels/don_pelon/clips?limit=6");
+    // Endpoint público para los últimos clips de Kick (no oficial)
+    const res = await fetch("https://kick.com/api/v1/channels/Don_Pelon/clips?limit=6");
     const data = await res.json();
-    const clipsDiv = document.getElementById("kick-clips");
+    const clipsDiv = document.getElementById("clips");
 
     clipsDiv.innerHTML = "";
 
+    // Crear tarjetas de clips
     data.clips.forEach(clip => {
+      const card = document.createElement("div");
+      card.className = "clip-card";
+
       const iframe = document.createElement("iframe");
       iframe.src = `https://kick.com/embed/clip/${clip.id}?parent=heychain2104.github.io`;
-      iframe.width = "320";
-      iframe.height = "180";
       iframe.allowFullscreen = true;
-      clipsDiv.appendChild(iframe);
+
+      const p = document.createElement("p");
+      p.textContent = clip.title || "Clip";
+
+      card.appendChild(iframe);
+      card.appendChild(p);
+      clipsDiv.appendChild(card);
     });
 
   } catch(err) {
@@ -29,5 +195,9 @@ async function cargarClipsKick() {
   }
 }
 
+// Cargar clips automáticamente al abrir la página
 cargarClipsKick();
 </script>
+
+</body>
+</html>
