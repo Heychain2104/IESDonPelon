@@ -45,34 +45,15 @@
   <!-- Stream en vivo -->
   <div class="video-card">
     <iframe
-      src="https://player.twitch.tv/?channel=donpelon_1&parent=localhost"
+      src="https://player.twitch.tv/?channel=donpelon_1&parent=heychain2104.github.io"
       allowfullscreen>
     </iframe>
     <p>Stream en vivo</p>
   </div>
+</div>
 
-  <!-- Clips manuales (puedes cambiar los nombres de los clips) -->
-  <div class="video-card">
-    <iframe
-      src="https://clips.twitch.tv/embed?clip=RemarkableFascinatingGooseMVGame&parent=localhost"
-      allowfullscreen>
-    </iframe>
-    <p>Clip 1</p>
-  </div>
-  <div class="video-card">
-    <iframe
-      src="https://clips.twitch.tv/embed?clip=FunnyCoolCatRlyTho&parent=localhost"
-      allowfullscreen>
-    </iframe>
-    <p>Clip 2</p>
-  </div>
-  <div class="video-card">
-    <iframe
-      src="https://clips.twitch.tv/embed?clip=CuriousHappyPangolinPeteZaroll&parent=localhost"
-      allowfullscreen>
-    </iframe>
-    <p>Clip 3</p>
-  </div>
+<div class="video-grid" id="clips">
+  <!-- Aquí se añadirán automáticamente los clips -->
 </div>
 
 <footer>
@@ -81,6 +62,43 @@
   <a href="#">Instagram</a>
   <a href="#">Correo</a>
 </footer>
+
+<script>
+  const backendUrl = "https://iesdonpelon-backend.onrender.com/clips";
+
+  async function cargarClips() {
+    try {
+      const res = await fetch(backendUrl);
+      const data = await res.json();
+      const clipsDiv = document.getElementById("clips");
+
+      clipsDiv.innerHTML = "";
+
+      data.data.forEach(clip => {
+        const card = document.createElement("div");
+        card.className = "video-card";
+
+        const iframe = document.createElement("iframe");
+        iframe.src = `https://clips.twitch.tv/embed?clip=${clip.id}&parent=heychain2104.github.io`;
+        iframe.allowFullscreen = true;
+
+        const p = document.createElement("p");
+        p.textContent = clip.title || "Clip";
+
+        card.appendChild(iframe);
+        card.appendChild(p);
+
+        clipsDiv.appendChild(card);
+      });
+
+    } catch (err) {
+      console.error("Error cargando clips:", err);
+    }
+  }
+
+  // Cargar clips al abrir la página
+  cargarClips();
+</script>
 
 </body>
 </html>
