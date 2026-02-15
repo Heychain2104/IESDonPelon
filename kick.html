@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kick - Don Pelon</title>
+<title>Kick - Oaguba Comunidad</title>
 <style>
-  /* Colores Kick: morado oscuro #4A00E0 y gris oscuro para fondo */
+  /* Colores Kick */
   body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -127,7 +127,7 @@
 <body>
 
 <header>
-  <img src="logo.png" alt="IES Don Pelon">
+  <img src="logo.png" alt="Oaguba Comunidad">
   <nav>
     <ul>
       <li><a href="index.html">Inicio</a></li>
@@ -166,7 +166,7 @@
 <script>
 async function cargarClipsKick() {
   try {
-    // Endpoint público para los últimos clips de Kick (no oficial)
+    // Endpoint público para clips (no oficial)
     const res = await fetch("https://kick.com/api/v1/channels/Don_Pelon/clips?limit=6");
     const data = await res.json();
     const clipsDiv = document.getElementById("clips");
