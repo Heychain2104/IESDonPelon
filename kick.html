@@ -1,0 +1,33 @@
+<div id="kick-stream">
+  <iframe src="https://kick.com/embed/donpelon_1?parent=heychain2104.github.io"
+          width="640" height="360" allowfullscreen>
+  </iframe>
+</div>
+
+<div id="kick-clips"></div>
+
+<script>
+async function cargarClipsKick() {
+  try {
+    const res = await fetch("https://kick.com/api/v1/channels/donpelon_1/clips?limit=6");
+    const data = await res.json();
+    const clipsDiv = document.getElementById("kick-clips");
+
+    clipsDiv.innerHTML = "";
+
+    data.clips.forEach(clip => {
+      const iframe = document.createElement("iframe");
+      iframe.src = `https://kick.com/embed/clip/${clip.id}?parent=heychain2104.github.io`;
+      iframe.width = "320";
+      iframe.height = "180";
+      iframe.allowFullscreen = true;
+      clipsDiv.appendChild(iframe);
+    });
+
+  } catch(err) {
+    console.error("Error cargando clips Kick:", err);
+  }
+}
+
+cargarClipsKick();
+</script>
