@@ -1,31 +1,122 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Twitch - Oaguba Comunidad</title>
-  <style>
-    * { margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif; }
-    body { background-color: #f9f9f9; color: #333; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Twitch - Oaguba Comunidad</title>
+<style>
+  /* Colores Twitch: morado #9146FF, blanco, gris oscuro */
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    color: #fff;
+  }
 
-    header, footer { background-color: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); padding: 15px 50px; }
-    header img { height: 70px; }
-    nav ul { list-style: none; display: flex; gap: 20px; }
-    nav ul li a { text-decoration: none; color: #333; padding: 10px; display: block; }
-    nav ul li:hover { background-color: #ffe033; border-radius: 5px; }
+  header, footer {
+    background-color: #9146FF;
+    padding: 15px 30px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
 
-    h2.section-title { font-size: 1.8em; margin: 40px 0 20px; text-align: center; }
+  header img { height: 60px; vertical-align: middle; }
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    padding: 0;
+    margin: 10px 0 0 0;
+  }
+  nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background 0.3s;
+  }
+  nav ul li a:hover {
+    background-color: #772ce8;
+  }
 
-    .video-grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
-    .video-card { flex: 1 1 300px; max-width: 350px; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: transform 0.3s; }
-    .video-card:hover { transform: scale(1.05); }
-    .video-card iframe { width: 100%; height: 200px; border: none; }
-    .video-card p { padding: 10px; text-align: center; font-weight: bold; }
-  </style>
+  main {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 30px;
+    justify-content: center;
+  }
+
+  /* Stream grande a la izquierda */
+  .stream-container {
+    flex: 2 1 600px;
+    background: #000;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  }
+  .stream-container iframe {
+    width: 100%;
+    height: 400px;
+  }
+
+  /* Clips a la derecha */
+  .clips-container {
+    flex: 1 1 300px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .clip-card {
+    background: #1f1f1f;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s;
+  }
+  .clip-card:hover {
+    transform: scale(1.03);
+  }
+  .clip-card iframe {
+    width: 100%;
+    height: 180px;
+    border: none;
+  }
+  .clip-card p {
+    padding: 8px;
+    text-align: center;
+    font-weight: bold;
+    color: #fff;
+    font-size: 0.9em;
+  }
+
+  h1 {
+    text-align: center;
+    margin: 20px 0;
+    color: #9146FF;
+  }
+
+  footer {
+    text-align: center;
+    color: #fff;
+  }
+  footer a {
+    color: #fff;
+    margin: 0 8px;
+    text-decoration: none;
+  }
+  footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 900px) {
+    main { flex-direction: column; align-items: center; }
+    .stream-container iframe { height: 300px; }
+    .clips-container { width: 100%; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+  }
+</style>
 </head>
 <body>
 
 <header>
+  <img src="logo.png" alt="Oaguba Comunidad">
   <nav>
     <ul>
       <li><a href="index.html">Inicio</a></li>
@@ -36,25 +127,23 @@
       <li><a href="twitch.html">Twitch</a></li>
     </ul>
   </nav>
-  <img src="logo.png" alt="Oaguba Comunidad">
 </header>
 
-<h2 class="section-title">Twitch - Clips y Stream de la Comunidad</h2>
+<h1>Stream y Clips de Donpelon_1</h1>
 
-<div class="video-grid">
-  <!-- Stream en vivo -->
-  <div class="video-card">
-    <iframe
-      src="https://player.twitch.tv/?channel=donpelon_1&parent=heychain2104.github.io"
-      allowfullscreen>
+<main>
+  <!-- Stream grande -->
+  <div class="stream-container">
+    <iframe src="https://player.twitch.tv/?channel=donpelon_1&parent=heychain2104.github.io"
+            allowfullscreen>
     </iframe>
-    <p>Stream en vivo</p>
   </div>
-</div>
 
-<div class="video-grid" id="clips">
-  <!-- Aquí se añadirán automáticamente los clips -->
-</div>
+  <!-- Clips automáticos -->
+  <div class="clips-container" id="clips">
+    <!-- Los clips se añadirán aquí dinámicamente -->
+  </div>
+</main>
 
 <footer>
   <p>Síguenos en nuestras redes:</p>
@@ -64,40 +153,39 @@
 </footer>
 
 <script>
-  const backendUrl = "https://iesdonpelon-backend.onrender.com/clips";
+const backendUrl = "https://iesdonpelon-backend.onrender.com/clips";
 
-  async function cargarClips() {
-    try {
-      const res = await fetch(backendUrl);
-      const data = await res.json();
-      const clipsDiv = document.getElementById("clips");
+async function cargarClips() {
+  try {
+    const res = await fetch(backendUrl);
+    const data = await res.json();
+    const clipsDiv = document.getElementById("clips");
 
-      clipsDiv.innerHTML = "";
+    clipsDiv.innerHTML = "";
 
-      data.data.forEach(clip => {
-        const card = document.createElement("div");
-        card.className = "video-card";
+    data.data.forEach(clip => {
+      const card = document.createElement("div");
+      card.className = "clip-card";
 
-        const iframe = document.createElement("iframe");
-        iframe.src = `https://clips.twitch.tv/embed?clip=${clip.id}&parent=heychain2104.github.io`;
-        iframe.allowFullscreen = true;
+      const iframe = document.createElement("iframe");
+      iframe.src = `https://clips.twitch.tv/embed?clip=${clip.id}&parent=heychain2104.github.io`;
+      iframe.allowFullscreen = true;
 
-        const p = document.createElement("p");
-        p.textContent = clip.title || "Clip";
+      const p = document.createElement("p");
+      p.textContent = clip.title || "Clip";
 
-        card.appendChild(iframe);
-        card.appendChild(p);
+      card.appendChild(iframe);
+      card.appendChild(p);
+      clipsDiv.appendChild(card);
+    });
 
-        clipsDiv.appendChild(card);
-      });
-
-    } catch (err) {
-      console.error("Error cargando clips:", err);
-    }
+  } catch (err) {
+    console.error("Error cargando clips:", err);
   }
+}
 
-  // Cargar clips al abrir la página
-  cargarClips();
+// Cargar clips automáticamente al abrir la página
+cargarClips();
 </script>
 
 </body>
