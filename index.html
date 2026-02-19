@@ -10,25 +10,68 @@
     header { display: flex; justify-content: space-between; align-items: center; padding: 15px 50px; background-color: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
     header img.logo { height: 70px; margin-left: 30px; }
     nav ul { list-style: none; display: flex; gap: 20px; }
-    nav ul li { position: relative; cursor: pointer; padding: 10px 5px; }
-    nav ul li:hover { background-color: #ffe033; border-radius: 5px; }
+    nav ul li { position: relative; cursor: pointer; padding: 10px 5px; transition: background 0.3s, color 0.3s; }
+    nav ul li:hover { background-color: #ffe033; color: #222; }
     nav ul li ul { display: none; position: absolute; top: 100%; left: 0; background-color: #fff; padding: 10px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.2); border-radius: 5px; min-width: 180px; }
     nav ul li:hover ul { display: block; }
     nav ul li ul li { padding: 8px 15px; }
     nav ul li ul li:hover { background-color: #ffe033; }
     #auth-area { margin-left: auto; margin-right: 20px; }
-    .discord-login { display: flex; align-items: center; gap: 8px; background-color: #5865F2; color: #fff; padding: 10px 15px; border-radius: 8px; text-decoration: none; font-weight: bold; cursor: pointer; transition: 0.3s ease; }
+    
+    /* Botón login Discord */
+    .discord-login {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background-color: #5865F2;
+      color: #fff;
+      padding: 10px 15px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
     .discord-login:hover { background-color: #4752C4; }
     .discord-login img { height: 20px; }
-    .user-info { display: flex; align-items: center; gap: 10px; font-weight: bold; }
-    .user-info img { width: 35px; height: 35px; border-radius: 50%; }
-    .logout-btn { background: #ff4d4d; border: none; color: white; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
-    .btn { background-color: #fff; color: #000; border: 2px solid #000; padding: 15px 0; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 1.2em; flex: 1; transition: all 0.3s ease; min-width: 150px; max-width: 250px; }
+
+    /* Usuario logueado */
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: bold;
+      background-color: #5865F2;
+      color: #fff;
+      padding: 10px 15px;
+      border-radius: 8px;
+    }
+    .user-info img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #fff;
+    }
+    .logout-btn {
+      background: #ff4d4d;
+      border: none;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+
+    /* Botones multimedia */
+    .btn { background-color: #fff; color: #000; border: 2px solid #000; padding: 15px 0; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 1.2em; flex: 1; transition: all 0.3s ease, transform 0.2s ease; min-width: 150px; max-width: 250px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+    .btn:hover { transform: translateY(-3px); box-shadow: 0 6px 10px rgba(0,0,0,0.15); }
     .btn img { height: 25px; }
     .btn.youtube:hover { background-color: #FF0000; color: #fff; }
     .btn.twitch:hover { background-color: #9146FF; color: #fff; }
     .btn.kick:hover { background-color: #00FF00; color: #000; }
     .btn.trovo:hover { background-color: #228B22; color: #fff; }
+
     section { padding: 50px; }
     .section-title { font-size: 1.8em; margin-bottom: 20px; }
     .grid { display: flex; gap: 20px; flex-wrap: wrap; }
@@ -80,7 +123,7 @@
     </ul>
   </nav>
 
-  <!-- Botón de login con Discord -->
+  <!-- Área de login/usuario -->
   <div id="auth-area">
     <a id="discord-login" class="discord-login">
       <img src="discord.jpg" alt="Discord">Continuar con Discord
@@ -149,10 +192,10 @@
 <script>
   const BACKEND_URL = "https://discord-authenticate.onrender.com";
 
-  // Apunta el botón al backend
+  // Apunta el botón de login
   document.getElementById("discord-login").href = BACKEND_URL + "/auth/discord";
 
-  // Funciones para manejar usuario logueado
+  // Manejo de usuario logueado
   function setUser(user) {
     localStorage.setItem("discordUser", JSON.stringify(user));
     showUser(user);
@@ -162,8 +205,8 @@
     const authArea = document.getElementById("auth-area");
     authArea.innerHTML = `
       <div class="user-info">
-        <img src="${user.avatar}">
-        ${user.username}
+        <img src="${user.avatar}" alt="Avatar">
+        <span>${user.username}</span>
         <button class="logout-btn" onclick="logout()">Salir</button>
       </div>
     `;
@@ -178,7 +221,7 @@
   const savedUser = localStorage.getItem("discordUser");
   if (savedUser) showUser(JSON.parse(savedUser));
 
-  // Simulación de login tras redirección de Discord
+  // Simulación de login tras redirect
   const params = new URLSearchParams(window.location.search);
   const username = params.get("username");
   const avatar = params.get("avatar");
