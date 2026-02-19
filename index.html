@@ -109,10 +109,14 @@
     </ul>
   </nav>
 
-  <div id="auth-area">
-    <a id="discord-login" class="discord-login">
-      <img src="discord.jpg" alt="Discord">Iniciar sesión con Discord
-    </a>
+ <script>
+  // URL de tu backend en Render
+  const BACKEND_URL = "https://iesdonpelon-backend.onrender.com";
+
+  // Cambiar el href del botón
+  document.getElementById("discord-login").href = `${BACKEND_URL}/auth/discord`;
+</script>
+
   </div>
 
   <img src="logo.png" class="logo" alt="Oaguba Comunidad">
