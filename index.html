@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>IES Don Pelon</title>
-
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
     body { background-color: #f9f9f9; color: #333; }
@@ -47,53 +46,100 @@
     .user-info img { width: 35px; height: 35px; border-radius: 50%; }
     .logout-btn { background: #ff4d4d; border: none; color: white; padding: 5px 10px; border-radius: 5px; cursor: pointer; }
 
+    .btn { background-color: #fff; color: #000; border: 2px solid #000; padding: 15px 0; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 1.2em; flex: 1; transition: all 0.3s ease; min-width: 150px; max-width: 250px; }
+    .btn img { height: 25px; }
+    .btn.youtube:hover { background-color: #FF0000; color: #fff; }
+    .btn.twitch:hover { background-color: #9146FF; color: #fff; }
+    .btn.kick:hover { background-color: #00FF00; color: #000; }
+    .btn.trovo:hover { background-color: #228B22; color: #fff; }
+
     section { padding: 50px; }
     .section-title { font-size: 1.8em; margin-bottom: 20px; }
 
+    .grid { display: flex; gap: 20px; flex-wrap: wrap; }
+    .card { background-color: #fff; padding: 20px; border-radius: 10px; flex: 1; min-width: 250px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+
+    .bio { display: flex; gap: 20px; align-items: center; margin-bottom: 50px; }
+    .bio img { width: 200px; border-radius: 10px; }
+    .bio-text { max-width: 700px; }
+    .bio-text h2 { font-size: 1.8em; margin-bottom: 10px; }
+
+    .btn-row { display: flex; gap: 20px; flex-wrap: wrap; justify-content: space-between; margin-bottom: 15px; }
+
     footer { background-color: #fff; padding: 30px 50px; text-align: center; margin-top: 50px; box-shadow: 0 -2px 5px rgba(0,0,0,0.1); }
+    footer a { margin: 0 10px; text-decoration: none; color: #333; }
   </style>
 </head>
-
 <body>
 
 <header>
   <nav>
     <ul>
       <li>Inicio</li>
-      <li>Foro</li>
-      <li>Noticias</li>
-      <li>Galería</li>
-      <li>Multimedia</li>
+      <li>Foro
+        <ul>
+          <li>Temas Populares</li>
+          <li>Últimos Comentarios</li>
+          <li>Crear Nuevo Tema</li>
+        </ul>
+      </li>
+      <li>Noticias
+        <ul>
+          <li>Locales</li>
+          <li>Avisos</li>
+          <li>Destacadas</li>
+        </ul>
+      </li>
+      <li>Galería
+        <ul>
+          <li>Fotos</li>
+          <li>Videos</li>
+        </ul>
+      </li>
+      <li>Multimedia
+        <ul>
+          <li>Twitch</li>
+          <li>YouTube</li>
+          <li>Trovo</li>
+          <li>Kick</li>
+        </ul>
+      </li>
       <li>Directorio</li>
     </ul>
   </nav>
 
   <div id="auth-area">
     <a id="discord-login" class="discord-login">
-      <img src="discord.jpg" alt="Discord">
-      Continuar con Discord
+      <img src="discord.jpg" alt="Discord">Continuar con Discord
     </a>
   </div>
 
   <img src="logo.png" class="logo" alt="Oaguba Comunidad">
 </header>
 
-<section>
-  <h2 class="section-title">Bienvenido a IES Don Pelon</h2>
-  <p>Portal oficial de la comunidad.</p>
+<!-- TODO tu contenido original se mantiene igual -->
+
+<section id="bio" class="bio">
+  <img src="bio.jpg" alt="Miembro de la Comunidad">
+  <div class="bio-text">
+    <h2>Bienvenido a IES Don Pelon</h2>
+    <p>Somos un portal dedicado a conectar y fortalecer a nuestra comunidad.</p>
+  </div>
 </section>
 
 <footer>
-  <p>IES Don Pelon © 2026</p>
+  <p>Síguenos en nuestras redes:</p>
+  <a href="#">Facebook</a>
+  <a href="#">Instagram</a>
+  <a href="#">Correo</a>
 </footer>
 
 <script>
 const BACKEND_URL = "https://iesdonpelon-backend.onrender.com";
 
-// Botón login
-document.getElementById("discord-login").href = BACKEND_URL + "/auth/discord";
+document.getElementById("discord-login").href =
+  BACKEND_URL + "/auth/discord";
 
-// Mostrar usuario
 function setUser(user) {
   localStorage.setItem("discordUser", JSON.stringify(user));
   showUser(user);
@@ -115,7 +161,6 @@ function logout() {
   window.location.href = BACKEND_URL + "/logout";
 }
 
-// Si vuelve con datos
 const params = new URLSearchParams(window.location.search);
 const username = params.get("username");
 const avatar = params.get("avatar");
@@ -125,7 +170,6 @@ if (username && avatar) {
   window.history.replaceState({}, document.title, window.location.pathname);
 }
 
-// Mantener sesión
 const savedUser = localStorage.getItem("discordUser");
 if (savedUser) showUser(JSON.parse(savedUser));
 </script>
