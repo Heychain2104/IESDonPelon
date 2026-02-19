@@ -17,7 +17,26 @@
     nav ul li ul li { padding: 8px 15px; }
     nav ul li ul li:hover { background-color: #ffe033; }
     #auth-area { margin-left: auto; margin-right: 20px; }
-    
+
+    .user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: bold;
+  padding: 10px 15px;
+  border-radius: 8px;
+  background-color: #5865F2; /* mismo color que el botón Discord */
+  color: #fff;
+  width: fit-content; /* se ajusta al contenido */
+}
+
+.user-info img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+} 
     /* Botón login Discord */
     .discord-login {
       display: flex;
@@ -193,7 +212,8 @@
   const BACKEND_URL = "https://discord-authenticate.onrender.com";
 
   // Apunta el botón de login
-  document.getElementById("discord-login").href = BACKEND_URL + "/auth/discord";
+  const discordBtn = document.getElementById("discord-login");
+  discordBtn.href = BACKEND_URL + "/auth/discord";
 
   // Manejo de usuario logueado
   function setUser(user) {
@@ -203,25 +223,25 @@
 
   function showUser(user) {
     const authArea = document.getElementById("auth-area");
+    // Reemplaza el botón con avatar + nombre
     authArea.innerHTML = `
       <div class="user-info">
         <img src="${user.avatar}" alt="Avatar">
         <span>${user.username}</span>
-        <button class="logout-btn" onclick="logout()">Salir</button>
       </div>
     `;
   }
 
   function logout() {
     localStorage.removeItem("discordUser");
-    location.reload();
+    location.reload(); // vuelve a mostrar el botón
   }
 
-  // Mostrar usuario guardado si hay sesión
+  // Si hay usuario guardado en sesión, reemplaza el botón
   const savedUser = localStorage.getItem("discordUser");
   if (savedUser) showUser(JSON.parse(savedUser));
 
-  // Simulación de login tras redirect
+  // Simulación de login tras redirección de Discord
   const params = new URLSearchParams(window.location.search);
   const username = params.get("username");
   const avatar = params.get("avatar");
