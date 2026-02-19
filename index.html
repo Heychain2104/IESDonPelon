@@ -7,37 +7,20 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
     body { background-color: #f9f9f9; color: #333; }
+
     header { display: flex; justify-content: space-between; align-items: center; padding: 15px 50px; background-color: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
     header img.logo { height: 70px; margin-left: 30px; }
+
     nav ul { list-style: none; display: flex; gap: 20px; }
-    nav ul li { position: relative; cursor: pointer; padding: 10px 5px; transition: background 0.3s, color 0.3s; }
-    nav ul li:hover { background-color: #ffe033; color: #222; }
+    nav ul li { position: relative; cursor: pointer; padding: 10px 5px; }
+    nav ul li:hover { background-color: #ffe033; border-radius: 5px; }
     nav ul li ul { display: none; position: absolute; top: 100%; left: 0; background-color: #fff; padding: 10px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.2); border-radius: 5px; min-width: 180px; }
     nav ul li:hover ul { display: block; }
     nav ul li ul li { padding: 8px 15px; }
     nav ul li ul li:hover { background-color: #ffe033; }
+
     #auth-area { margin-left: auto; margin-right: 20px; }
 
-    .user-info {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: bold;
-  padding: 10px 15px;
-  border-radius: 8px;
-  background-color: #5865F2; /* mismo color que el botón Discord */
-  color: #fff;
-  width: fit-content; /* se ajusta al contenido */
-}
-
-.user-info img {
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #fff;
-} 
-    /* Botón login Discord */
     .discord-login {
       display: flex;
       align-items: center;
@@ -49,42 +32,25 @@
       text-decoration: none;
       font-weight: bold;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: 0.3s ease;
     }
     .discord-login:hover { background-color: #4752C4; }
     .discord-login img { height: 20px; }
 
-    /* Usuario logueado */
     .user-info {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       font-weight: bold;
-      background-color: #5865F2;
-      color: #fff;
-      padding: 10px 15px;
-      border-radius: 8px;
     }
     .user-info img {
-      width: 35px;
-      height: 35px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       object-fit: cover;
-      border: 2px solid #fff;
-    }
-    .logout-btn {
-      background: #ff4d4d;
-      border: none;
-      color: white;
-      padding: 5px 10px;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-left: 10px;
     }
 
-    /* Botones multimedia */
-    .btn { background-color: #fff; color: #000; border: 2px solid #000; padding: 15px 0; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 1.2em; flex: 1; transition: all 0.3s ease, transform 0.2s ease; min-width: 150px; max-width: 250px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-    .btn:hover { transform: translateY(-3px); box-shadow: 0 6px 10px rgba(0,0,0,0.15); }
+    .btn { background-color: #fff; color: #000; border: 2px solid #000; padding: 15px 0; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 1.2em; flex: 1; transition: all 0.3s ease; min-width: 150px; max-width: 250px; }
     .btn img { height: 25px; }
     .btn.youtube:hover { background-color: #FF0000; color: #fff; }
     .btn.twitch:hover { background-color: #9146FF; color: #fff; }
@@ -93,13 +59,17 @@
 
     section { padding: 50px; }
     .section-title { font-size: 1.8em; margin-bottom: 20px; }
+
     .grid { display: flex; gap: 20px; flex-wrap: wrap; }
     .card { background-color: #fff; padding: 20px; border-radius: 10px; flex: 1; min-width: 250px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+
     .bio { display: flex; gap: 20px; align-items: center; margin-bottom: 50px; }
     .bio img { width: 200px; border-radius: 10px; }
     .bio-text { max-width: 700px; }
     .bio-text h2 { font-size: 1.8em; margin-bottom: 10px; }
+
     .btn-row { display: flex; gap: 20px; flex-wrap: wrap; justify-content: space-between; margin-bottom: 15px; }
+
     footer { background-color: #fff; padding: 30px 50px; text-align: center; margin-top: 50px; box-shadow: 0 -2px 5px rgba(0,0,0,0.1); }
     footer a { margin: 0 10px; text-decoration: none; color: #333; }
   </style>
@@ -142,7 +112,7 @@
     </ul>
   </nav>
 
-  <!-- Área de login/usuario -->
+  <!-- Botón de login con Discord -->
   <div id="auth-area">
     <a id="discord-login" class="discord-login">
       <img src="discord.jpg" alt="Discord">Continuar con Discord
@@ -208,14 +178,13 @@
   <a href="#">Correo</a>
 </footer>
 
+<!-- Script de login Discord -->
 <script>
-  const BACKEND_URL = "https://discord-authenticate.onrender.com";
+  const BACKEND_URL = "https://iesdonpelon-backend.onrender.com";
 
-  // Apunta el botón de login
   const discordBtn = document.getElementById("discord-login");
   discordBtn.href = BACKEND_URL + "/auth/discord";
 
-  // Manejo de usuario logueado
   function setUser(user) {
     localStorage.setItem("discordUser", JSON.stringify(user));
     showUser(user);
@@ -223,7 +192,6 @@
 
   function showUser(user) {
     const authArea = document.getElementById("auth-area");
-    // Reemplaza el botón con avatar + nombre
     authArea.innerHTML = `
       <div class="user-info">
         <img src="${user.avatar}" alt="Avatar">
@@ -234,14 +202,13 @@
 
   function logout() {
     localStorage.removeItem("discordUser");
-    location.reload(); // vuelve a mostrar el botón
+    location.reload();
   }
 
-  // Si hay usuario guardado en sesión, reemplaza el botón
   const savedUser = localStorage.getItem("discordUser");
   if (savedUser) showUser(JSON.parse(savedUser));
 
-  // Simulación de login tras redirección de Discord
+  // Simulación de login tras redirección
   const params = new URLSearchParams(window.location.search);
   const username = params.get("username");
   const avatar = params.get("avatar");
