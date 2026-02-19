@@ -109,14 +109,11 @@
     </ul>
   </nav>
 
- <script>
-  // URL de tu backend en Render
-  const BACKEND_URL = "https://iesdonpelon-backend.onrender.com";
-
-  // Cambiar el href del botón
-  document.getElementById("discord-login").href = `${BACKEND_URL}/auth/discord`;
-</script>
-
+  <!-- Botón de login con Discord -->
+  <div id="auth-area">
+    <a id="discord-login" class="discord-login">
+      <img src="discord.jpg" alt="Discord">Continuar con Discord
+    </a>
   </div>
 
   <img src="logo.png" class="logo" alt="Oaguba Comunidad">
@@ -179,13 +176,13 @@
 </footer>
 
 <script>
-  // 🔹 URL de tu backend en Render
+  // URL de tu backend en Render
   const BACKEND_URL = "https://iesdonpelon-backend.onrender.com";
 
-  // Cambia href del botón
+  // Apunta el botón al backend
   document.getElementById("discord-login").href = `${BACKEND_URL}/auth/discord`;
 
-  // Mostrar usuario guardado en localStorage (simulación)
+  // Funciones para simular usuario logueado en frontend
   function setUser(user) {
     localStorage.setItem("discordUser", JSON.stringify(user));
     showUser(user);
@@ -210,9 +207,9 @@
   const savedUser = localStorage.getItem("discordUser");
   if (savedUser) showUser(JSON.parse(savedUser));
 
-  // Simula el login luego de redirigir desde el backend
+  // Simulación de login tras redirección de Discord
   const params = new URLSearchParams(window.location.search);
-  if (params.get("code") === "success") {
+  if (params.get("code")) {
     const fakeUser = {
       username: "UsuarioDiscord",
       avatar: "https://cdn-icons-png.flaticon.com/512/5968/5968756.png"
@@ -224,4 +221,3 @@
 
 </body>
 </html>
-
