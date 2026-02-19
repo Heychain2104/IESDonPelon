@@ -35,7 +35,6 @@
       cursor: pointer;
       transition: 0.3s ease;
     }
-
     .discord-login:hover { background-color: #4752C4; }
     .discord-login img { height: 20px; }
 
@@ -112,7 +111,7 @@
 
   <div id="auth-area">
     <a id="discord-login" class="discord-login">
-      <img src="discord.jpg" alt="Discord">Continuar con Discord
+      <img src="discord.jpg" alt="Discord">Iniciar sesión con Discord
     </a>
   </div>
 
@@ -176,50 +175,47 @@
 </footer>
 
 <script>
-const CLIENT_ID = "TU_CLIENT_ID_AQUI";
-const REDIRECT_URI = window.location.origin + window.location.pathname;
+  // 🔹 URL de tu backend en Render
+  const BACKEND_URL = "https://iesdonpelon-backend.onrender.com";
 
-const discordAuthURL =
-  `https://discord.com/oauth2/authorize?client_id=${CLIENT_ID}` +
-  `&response_type=code` +
-  `&redirect_uri=${encodeURIComponent(REDIRECT_URI)}` +
-  `&scope=identify email`;
+  // Cambia href del botón
+  document.getElementById("discord-login").href = `${BACKEND_URL}/auth/discord`;
 
-document.getElementById("discord-login").href = discordAuthURL;
+  // Mostrar usuario guardado en localStorage (simulación)
+  function setUser(user) {
+    localStorage.setItem("discordUser", JSON.stringify(user));
+    showUser(user);
+  }
 
-function setUser(user) {
-  localStorage.setItem("discordUser", JSON.stringify(user));
-  showUser(user);
-}
+  function showUser(user) {
+    const authArea = document.getElementById("auth-area");
+    authArea.innerHTML = `
+      <div class="user-info">
+        <img src="${user.avatar}">
+        ${user.username}
+        <button class="logout-btn" onclick="logout()">Salir</button>
+      </div>
+    `;
+  }
 
-function showUser(user) {
-  const authArea = document.getElementById("auth-area");
-  authArea.innerHTML = `
-    <div class="user-info">
-      <img src="${user.avatar}">
-      ${user.username}
-      <button class="logout-btn" onclick="logout()">Salir</button>
-    </div>
-  `;
-}
+  function logout() {
+    localStorage.removeItem("discordUser");
+    location.reload();
+  }
 
-function logout() {
-  localStorage.removeItem("discordUser");
-  location.reload();
-}
+  const savedUser = localStorage.getItem("discordUser");
+  if (savedUser) showUser(JSON.parse(savedUser));
 
-const savedUser = localStorage.getItem("discordUser");
-if (savedUser) showUser(JSON.parse(savedUser));
-
-const params = new URLSearchParams(window.location.search);
-if (params.get("code")) {
-  const fakeUser = {
-    username: "UsuarioDiscord",
-    avatar: "https://cdn-icons-png.flaticon.com/512/5968/5968756.png"
-  };
-  setUser(fakeUser);
-  window.history.replaceState({}, document.title, window.location.pathname);
-}
+  // Simula el login luego de redirigir desde el backend
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("code") === "success") {
+    const fakeUser = {
+      username: "UsuarioDiscord",
+      avatar: "https://cdn-icons-png.flaticon.com/512/5968/5968756.png"
+    };
+    setUser(fakeUser);
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
 </script>
 
 </body>
