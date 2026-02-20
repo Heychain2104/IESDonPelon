@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Muro - IES Don Pelon</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #1e1f22;
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #5865F2;
+      padding: 15px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+    }
+
+    .login-btn {
+      background: #5865F2;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 5px;
+    }
+
+    .message-box {
+      margin-top: 20px;
+      display: none;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+      resize: none;
+      height: 80px;
+    }
+
+    .send-btn {
+      margin-top: 10px;
+      background: #43b581;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .messages {
+      margin-top: 30px;
+    }
+
+    .message {
+      background: #2b2d31;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+
+    .username {
+      font-weight: bold;
+      color: #5865F2;
+    }
+
+    .date {
+      font-size: 12px;
+      color: gray;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  Muro Comunidad - IES Don Pelon
+</header>
+
+<div class="container">
+
+  <button class="login-btn" id="loginBtn">
+    Iniciar sesión con Discord
+  </button>
+
+  <div class="message-box" id="messageBox">
+    <textarea id="messageInput" placeholder="Escribe tu mensaje..."></textarea>
+    <button class="send-btn" id="sendBtn">Enviar</button>
+  </div>
+
+  <div class="messages" id="messages">
+    <!-- Aquí aparecerán los mensajes -->
+  </div>
+
+</div>
+
+<script>
+  // Simulación temporal de login
+  const loginBtn = document.getElementById("loginBtn");
+  const messageBox = document.getElementById("messageBox");
+
+  loginBtn.addEventListener("click", () => {
+    alert("Aquí luego conectaremos Discord 🔥");
+    messageBox.style.display = "block";
+  });
+
+  document.getElementById("sendBtn").addEventListener("click", () => {
+    const input = document.getElementById("messageInput");
+    const messageText = input.value;
+
+    if (messageText.trim() === "") return;
+
+    const messageDiv = document.createElement("div");
+    messageDiv.classList.add("message");
+
+    messageDiv.innerHTML = `
+      <div class="username">Usuario</div>
+      <div>${messageText}</div>
+      <div class="date">${new Date().toLocaleString()}</div>
+    `;
+
+    document.getElementById("messages").prepend(messageDiv);
+    input.value = "";
+  });
+</script>
+
+</body>
+</html>
