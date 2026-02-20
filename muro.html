@@ -2,132 +2,179 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Muro - IES Don Pelon</title>
-  <link rel="stylesheet" href="style.css">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #1e1f22;
-      color: white;
-      margin: 0;
-      padding: 0;
-    }
 
-    header {
-      background: #5865F2;
-      padding: 15px;
-      text-align: center;
-      font-size: 22px;
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+    body { background-color: #f9f9f9; color: #333; }
+
+    header { display: flex; justify-content: space-between; align-items: center; padding: 15px 50px; background-color: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    header img.logo { height: 70px; margin-left: 30px; }
+
+    nav ul { list-style: none; display: flex; gap: 20px; }
+    nav ul li { position: relative; cursor: pointer; padding: 10px 5px; }
+    nav ul li:hover { background-color: #ffe033; border-radius: 5px; }
+    nav ul li ul { display: none; position: absolute; top: 100%; left: 0; background-color: #fff; padding: 10px 0; box-shadow: 0 2px 5px rgba(0,0,0,0.2); border-radius: 5px; min-width: 180px; }
+    nav ul li:hover ul { display: block; }
+    nav ul li ul li { padding: 8px 15px; }
+    nav ul li ul li:hover { background-color: #ffe033; }
+
+    #auth-area { margin-left: auto; margin-right: 20px; }
+
+    .discord-login {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background-color: #5865F2;
+      color: #fff;
+      padding: 10px 15px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+    .discord-login:hover { background-color: #4752C4; }
+    .discord-login img { height: 20px; }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
       font-weight: bold;
     }
+    .user-info img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
 
-    .container {
+    section { padding: 50px; }
+
+    .section-title { font-size: 1.8em; margin-bottom: 20px; }
+
+    .chat-container {
       max-width: 800px;
-      margin: 20px auto;
-      padding: 20px;
-    }
-
-    .login-btn {
-      background: #5865F2;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      cursor: pointer;
-      font-size: 16px;
-      border-radius: 5px;
-    }
-
-    .message-box {
-      margin-top: 20px;
-      display: none;
+      margin: 100px auto 0 auto; /* 👈 Más abajo */
     }
 
     textarea {
       width: 100%;
-      padding: 10px;
-      border-radius: 5px;
-      border: none;
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
       resize: none;
-      height: 80px;
+      height: 100px;
     }
 
     .send-btn {
       margin-top: 10px;
-      background: #43b581;
+      background-color: #000;
       color: white;
       border: none;
-      padding: 8px 15px;
+      padding: 10px 20px;
+      border-radius: 6px;
       cursor: pointer;
-      border-radius: 5px;
-    }
-
-    .messages {
-      margin-top: 30px;
     }
 
     .message {
-      background: #2b2d31;
-      padding: 10px;
-      margin-bottom: 10px;
-      border-radius: 5px;
+      background: white;
+      padding: 15px;
+      margin-top: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
 
-    .username {
-      font-weight: bold;
-      color: #5865F2;
-    }
+    .username { font-weight: bold; margin-bottom: 5px; }
+    .date { font-size: 12px; color: gray; margin-top: 5px; }
 
-    .date {
-      font-size: 12px;
-      color: gray;
-    }
+    footer { background-color: #fff; padding: 30px 50px; text-align: center; margin-top: 50px; box-shadow: 0 -2px 5px rgba(0,0,0,0.1); }
   </style>
 </head>
-
 <body>
 
 <header>
-  Muro Comunidad - IES Don Pelon
+  <nav>
+    <ul>
+      <li><a href="index.html" style="text-decoration:none;color:inherit;">Inicio</a></li>
+      <li>Muro</li>
+    </ul>
+  </nav>
+
+  <div id="auth-area">
+    <a id="discord-login" class="discord-login">
+      <img src="discord.jpg" alt="Discord">Continuar con Discord
+    </a>
+  </div>
+
+  <img src="logo.png" class="logo" alt="Oaguba Comunidad">
 </header>
 
-<div class="container">
+<section>
+  <h2 class="section-title">Muro Comunitario</h2>
 
-  <button class="login-btn" id="loginBtn">
-    Iniciar sesión con Discord
-  </button>
+  <div class="chat-container">
 
-  <div class="message-box" id="messageBox">
-    <textarea id="messageInput" placeholder="Escribe tu mensaje..."></textarea>
-    <button class="send-btn" id="sendBtn">Enviar</button>
+    <div id="chat-area" style="display:none;">
+      <textarea id="messageInput" placeholder="Escribe tu mensaje..."></textarea>
+      <button class="send-btn" id="sendBtn">Publicar</button>
+    </div>
+
+    <div id="messages"></div>
+
   </div>
+</section>
 
-  <div class="messages" id="messages">
-    <!-- Aquí aparecerán los mensajes -->
-  </div>
-
-</div>
+<footer>
+  <p>IES Don Pelon - Comunidad Oficial</p>
+</footer>
 
 <script>
-  // Simulación temporal de login
-  const loginBtn = document.getElementById("loginBtn");
-  const messageBox = document.getElementById("messageBox");
+  const BACKEND_URL = "https://discord-authenticate.onrender.com";
 
-  loginBtn.addEventListener("click", () => {
-    alert("Aquí luego conectaremos Discord 🔥");
-    messageBox.style.display = "block";
-  });
+  const discordBtn = document.getElementById("discord-login");
+  discordBtn.href = BACKEND_URL + "/auth/discord";
+
+  function setUser(user) {
+    localStorage.setItem("discordUser", JSON.stringify(user));
+    showUser(user);
+  }
+
+  function showUser(user) {
+    const authArea = document.getElementById("auth-area");
+    authArea.innerHTML = `
+      <div class="user-info">
+        <img src="${user.avatar}" alt="Avatar">
+        <span>${user.username}</span>
+      </div>
+    `;
+    document.getElementById("chat-area").style.display = "block";
+  }
+
+  const savedUser = localStorage.getItem("discordUser");
+  if (savedUser) showUser(JSON.parse(savedUser));
+
+  const params = new URLSearchParams(window.location.search);
+  const username = params.get("username");
+  const avatar = params.get("avatar");
+  if (username && avatar) {
+    setUser({ username, avatar });
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }
 
   document.getElementById("sendBtn").addEventListener("click", () => {
     const input = document.getElementById("messageInput");
     const messageText = input.value;
+    if (!messageText.trim()) return;
 
-    if (messageText.trim() === "") return;
+    const user = JSON.parse(localStorage.getItem("discordUser"));
 
     const messageDiv = document.createElement("div");
     messageDiv.classList.add("message");
-
     messageDiv.innerHTML = `
-      <div class="username">Usuario</div>
+      <div class="username">${user.username}</div>
       <div>${messageText}</div>
       <div class="date">${new Date().toLocaleString()}</div>
     `;
